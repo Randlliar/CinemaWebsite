@@ -1,0 +1,102 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #e3e3e3;
+
+}
+
+.font{
+  font-family: 'Bebas Neue', cursive;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 32px;
+  color: #524f4f;
+}
+
+.font-header{
+  font-family: 'Bebas Neue', cursive;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 32px;
+  color: white;
+}
+
+.margin{
+  margin: 10px;
+}
+
+.color-option{
+  color: black;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10%;
+  background-color: #524f4f;
+  color: white;
+  min-width: 360px;
+}
+
+.selected{
+  width: 100px;
+  height: 45px;
+  background: none;
+  color: white;
+}
+
+@media handheld and (min-width: 360px) {
+  .main{
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #e3e3e3;
+    height: fit-content;
+    min-width: 360px;
+  }
+}
+
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  height: fit-content;
+}
+
+.image{
+  display: flex;
+  background-color: #524f4f;
+  max-width: 200px;
+  height: 350px;
+  min-width: fit-content;
+  margin: 10px;
+  justify-content: center;
+  /*min-height: fit-content;*/
+  border-radius: 20px;
+
+}
+
+.poster{
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
