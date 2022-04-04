@@ -4,21 +4,57 @@ html {
   padding: 0;
   height: 100%;
   background-color: #e3e3e3;
-
 }
 
 .font{
   font-family: 'Bebas Neue', cursive;
   font-family: 'PT Sans', sans-serif;
-  font-size: 32px;
+  font-size: 64px;
   color: #524f4f;
+  margin: 30px;
+}
+
+@media screen and (min-device-width: 720px){
+  .font{
+    font-family: 'Bebas Neue', cursive;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 32px;
+    color: #524f4f;
+  }
+}
+
+.font-drop-down{
+  font-family: 'Bebas Neue', cursive;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 64px;
+  color: #524f4f;
+}
+
+@media screen and (min-device-width: 720px){
+  .font-drop-down{
+    font-family: 'Bebas Neue', cursive;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 32px;
+    color: #524f4f;
+  }
 }
 
 .font-header{
   font-family: 'Bebas Neue', cursive;
   font-family: 'PT Sans', sans-serif;
-  font-size: 32px;
+  font-size: 64px;
   color: white;
+  margin: 30px;
+
+}
+
+@media screen and (min-device-width: 720px) {
+  .font-header{
+    font-family: 'Bebas Neue', cursive;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 32px;
+    color: white;
+  }
 }
 
 .margin{
@@ -40,19 +76,20 @@ html {
 }
 
 .selected{
-  width: 100px;
-  height: 45px;
+  width: 350px;
+  height: 100px;
   background: none;
   color: white;
+  margin: 30px;
+
 }
 
-@media handheld and (min-width: 360px) {
-  .main{
-    display: flex;
-    flex-wrap: wrap;
-    background-color: #e3e3e3;
-    height: fit-content;
-    min-width: 360px;
+@media screen and (min-device-width: 720px){
+  .selected{
+    width: 200px;
+    height: 45px;
+    background: none;
+    color: white;
   }
 }
 
@@ -60,6 +97,17 @@ html {
   display: flex;
   flex-wrap: wrap;
   height: fit-content;
+}
+
+
+@media screen and (min-device-width: 720px) {
+  .main{
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #e3e3e3;
+    height: fit-content;
+    min-width: 360px;
+  }
 }
 
 .image{
@@ -70,7 +118,6 @@ html {
   min-width: fit-content;
   margin: 10px;
   justify-content: center;
-  /*min-height: fit-content;*/
   border-radius: 20px;
 
 }
@@ -84,7 +131,9 @@ html {
 }
 
 .pagination {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  margin: 30px;
 }
 
 .pagination a {
