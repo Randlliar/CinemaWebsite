@@ -26,7 +26,7 @@ html {
 .font-drop-down{
   font-family: 'Bebas Neue', cursive;
   font-family: 'PT Sans', sans-serif;
-  font-size: 64px;
+  font-size: 32px;
   color: #524f4f;
 }
 
@@ -138,7 +138,7 @@ html {
 
 .pagination a {
   color: black;
-  float: left;
+  /*float: left;*/
   padding: 8px 16px;
   text-decoration: none;
 }
@@ -149,3 +149,12 @@ html {
 }
 
 .pagination a:hover:not(.active) {background-color: #ddd;}
+
+.btn {
+  border: none;
+  outline: none;
+  padding: 10px 16px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  font-size: 18px;
+}
