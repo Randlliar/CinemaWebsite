@@ -77,11 +77,16 @@ const handleClick = (film) => {
       const info = document.createElement('div');
       info.classList.add('info');
 
+      const divContainer = document.createElement('div');
+      divContainer.classList.add('divContainer');
+
       const movieData = document.createElement('div');
       movieData.classList.add('movieData');
 
+
       const img = buildImageElement(film);
       img.classList.add('image-poster');
+
 
       const topDescription = document.createElement('div');
       topDescription.classList.add('top-description');
@@ -89,6 +94,10 @@ const handleClick = (film) => {
       const title = document.createElement('span');
       title.classList.add('title');
       title.innerText = `${film.original_title}(${film.release_date.split('-')[0]})`;
+
+      const titleMobile = document.createElement('span');
+      titleMobile.classList.add('titleMobile');
+      titleMobile.innerText = `${film.original_title}(${film.release_date.split('-')[0]})`;
 
       const score = document.createElement('span');
       score.classList.add('score');
@@ -111,6 +120,10 @@ const handleClick = (film) => {
       description.classList.add('description');
       description.innerText = film.overview;
 
+      const descriptionMobile = document.createElement('span');
+      descriptionMobile.classList.add('description-mobile');
+      descriptionMobile.innerText = film.overview;
+
       div.append(img);
 
       movieData.append(score);
@@ -123,7 +136,13 @@ const handleClick = (film) => {
       info.append(topDescription);
       info.append(description);
 
-      div.append(info);
+      divContainer.append(img);
+      divContainer.append(info);
+
+      div.append(divContainer);
+      // div.append(info);
+      div.append(titleMobile);
+      div.append(descriptionMobile);
 
 
       wrapper.append(wrapperBackground);
