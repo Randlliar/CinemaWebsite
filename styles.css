@@ -70,7 +70,8 @@ html {
   position: fixed;
   justify-content: space-between;
   align-items: center;
-  height: 10%;
+  height: 100px;
+  width: 100%;
   background-color: #524f4f;
   color: white;
   min-width: 360px;
@@ -310,7 +311,6 @@ html {
 .description-mobile{
   font-size: 48px;
   color: #ffffff;
-  /*width: 800px;*/
   margin: 20px;
   display: block;
 }
