@@ -1,6 +1,7 @@
 let page = 1;
 let container;
 let totalPages;
+let favorites = [];
 let apiKey = 'ebea8cfca72fdff8d2624ad7bbf78e4c';
 const month = {
   '01' : 'Jan',
@@ -22,6 +23,7 @@ section.innerHTML = '';
 
 document.addEventListener('DOMContentLoaded', function () {
   makeReqest();
+  getFromLocalStorage();
 });
 
 const makeReqest = () => {
@@ -54,6 +56,11 @@ const handleClick = (film) => {
 
       const wrapper = document.createElement('div');
       wrapper.classList.add('modal-wrapper');
+
+      const favoriteFilms = localStorage.getItem('favorites')  ? JSON.parse(localStorage.getItem('favorites')) : [];
+      let isInFavorite = favoriteFilms.includes(film.id);
+      console.log(isInFavorite);
+
 
       const wrapperBackground = document.createElement('div');
 
@@ -124,7 +131,48 @@ const handleClick = (film) => {
       descriptionMobile.classList.add('description-mobile');
       descriptionMobile.innerText = film.overview;
 
-      div.append(img);
+      const imgWrapper = document.createElement('div');
+      imgWrapper.classList.add('imgWrapper');
+
+      const addToFavorites = document.createElement('span');
+      addToFavorites.classList.add('add-to-favourite');
+      addToFavorites.innerText = isInFavorite ? 'In favorite' : 'Add to favorite';
+      addToFavorites.onclick = () => {
+        let favoriteFilms = localStorage.getItem('favorites')  ? JSON.parse(localStorage.getItem('favorites')) : [];
+        if (isInFavorite) {
+          favoriteFilms = favoriteFilms.filter((item) => {
+            return +item !== +film.id;
+          })
+        }
+        else {
+          favoriteFilms.push(film.id);
+        }
+        localStorage.setItem('favorites', JSON.stringify(favoriteFilms));
+        isInFavorite = !isInFavorite;
+        addToFavorites.innerText = isInFavorite ? 'In favorite' : 'Add to favorite';
+        addToFavoritesMobile.setAttribute('src' , isInFavorite ? '/images/star.png' : '/images/close.png'); //добавить в 2 поля
+      }
+
+      const addToFavoritesMobile = document.createElement('img');
+      addToFavoritesMobile.setAttribute('src' , isInFavorite ? '/images/star.png' : '/images/close.png');
+      addToFavoritesMobile.classList.add('add-to-favourite-mobile');
+      addToFavoritesMobile.onclick = () => {
+        let favoriteFilms = localStorage.getItem('favorites')  ? JSON.parse(localStorage.getItem('favorites')) : [];
+        if (isInFavorite) {
+          favoriteFilms = favoriteFilms.filter((item) => {
+            return +item !== +film.id;
+          })
+        }
+        else {
+          favoriteFilms.push(film.id);
+        }
+        localStorage.setItem('favorites', JSON.stringify(favoriteFilms));
+        isInFavorite = !isInFavorite;
+        addToFavoritesMobile.setAttribute('src' , isInFavorite ? '/images/star.png' : '/images/close.png'); //добавить в 2 поля
+        addToFavorites.innerText = isInFavorite ? 'In favorite' : 'Add to favorite';
+      }
+
+        div.append(img);
 
       movieData.append(score);
       movieData.append(rating);
@@ -133,14 +181,18 @@ const handleClick = (film) => {
       topDescription.append(title);
       topDescription.append(movieData);
 
+      imgWrapper.append(addToFavorites);
+      imgWrapper.append(addToFavoritesMobile);
+
+      info.append(imgWrapper);
       info.append(topDescription);
       info.append(description);
 
       divContainer.append(img);
       divContainer.append(info);
 
+
       div.append(divContainer);
-      // div.append(info);
       div.append(titleMobile);
       div.append(descriptionMobile);
 
@@ -288,7 +340,16 @@ const drawPagination = () => {
   }
   pagination.append(buttonNext);
   pagination.append(buttonLast);
+}
 
+const getFromLocalStorage = () => {
+  let saved = localStorage.getItem('zalupa');
+  if (saved) {
+    favorites = JSON.parse(saved);
+  }
 }
 
 
+
+
+// ??
