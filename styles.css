@@ -379,3 +379,20 @@ html {
   display: flex;
   justify-content: flex-end;
 }
+
+.next-film{
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 1600px;
+  top: 100px;
+}
+
+.previous-film{
+  /*display: flex;*/
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 40px;
+  top: 100px;
+}

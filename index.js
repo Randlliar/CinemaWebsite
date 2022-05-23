@@ -22,6 +22,8 @@ const section = document.getElementById('section');
 section.innerHTML = '';
 
 document.addEventListener('DOMContentLoaded', function () {
+  //функцию для сэкшна
+  const zalupa2 = document
   makeReqest();
   getFromLocalStorage();
 });
@@ -43,9 +45,9 @@ const makeReqest = () => {
     })
 };
 
-const handleClick = (film) => {
-  console.log(film);
-  fetch(`https://api.themoviedb.org/3/movie/${film.id}/videos?api_key=${apiKey}`, {
+const handleClick = (id) => {
+  console.log(id);
+  fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`, {
     method: 'GET',
   })
     .then((response) => {
@@ -54,17 +56,24 @@ const handleClick = (film) => {
     .then((response) => {
       console.log(response);
 
+      // document.getElementsByClassName('modal-wrapper');
+      // const zalupa = document.getElementsByClassName('modal-wrapper');
+      // console.log(zalupa);
+      // if (zalupa){
+      //   zalupa[0].remove();
+      // }
+
       const wrapper = document.createElement('div');
       wrapper.classList.add('modal-wrapper');
 
       const favoriteFilms = localStorage.getItem('favorites')  ? JSON.parse(localStorage.getItem('favorites')) : [];
-      let isInFavorite = favoriteFilms.includes(film.id);
+      let isInFavorite = favoriteFilms.includes(response.id);
       console.log(isInFavorite);
 
 
       const wrapperBackground = document.createElement('div');
 
-      wrapperBackground.style.backgroundImage = `url(${`https://image.tmdb.org/t/p/w500/${film.poster_path}`})`;
+      wrapperBackground.style.backgroundImage = `url(${`https://image.tmdb.org/t/p/w500/${response.poster_path}`})`;
       wrapperBackground.style.backgroundRepeat = 'no-repeat';
       wrapperBackground.style.backgroundSize = 'cover';
       wrapperBackground.style.filter = 'blur(8px)';
@@ -91,7 +100,7 @@ const handleClick = (film) => {
       movieData.classList.add('movieData');
 
 
-      const img = buildImageElement(film);
+      const img = buildImageElement(response);
       img.classList.add('image-poster');
 
 
@@ -100,36 +109,33 @@ const handleClick = (film) => {
 
       const title = document.createElement('span');
       title.classList.add('title');
-      title.innerText = `${film.original_title}(${film.release_date.split('-')[0]})`;
+      title.innerText = `${response.original_title}(${response.release_date.split('-')[0]})`;
 
       const titleMobile = document.createElement('span');
       titleMobile.classList.add('titleMobile');
-      titleMobile.innerText = `${film.original_title}(${film.release_date.split('-')[0]})`;
+      titleMobile.innerText = `${response.original_title}(${response.release_date.split('-')[0]})`;
 
       const score = document.createElement('span');
       score.classList.add('score');
-      score.innerText = `Score: ${film.vote_average}`;
-
+      score.innerText = `Score: ${response.vote_average}`;
 
       const rating = document.createElement('span');
       rating.classList.add('rating');
-      rating.innerText = `Raiting: ${film.adult ? 'R' : 'G'}`;
+      rating.innerText = `Raiting: ${response.adult ? 'R' : 'G'}`;
 
-      const dateParts = film.release_date.split('-');
-
+      const dateParts = response.release_date.split('-');
 
       const release = document.createElement('span');
       release.classList.add('release');
       release.innerText = `Release Date: ${month[dateParts[1]]} ${+dateParts[2]}, ${dateParts[0]}`;
 
-
       const description = document.createElement('span');
       description.classList.add('description');
-      description.innerText = film.overview;
+      description.innerText = response.overview;
 
       const descriptionMobile = document.createElement('span');
       descriptionMobile.classList.add('description-mobile');
-      descriptionMobile.innerText = film.overview;
+      descriptionMobile.innerText = response.overview;
 
       const imgWrapper = document.createElement('div');
       imgWrapper.classList.add('imgWrapper');
@@ -141,11 +147,11 @@ const handleClick = (film) => {
         let favoriteFilms = localStorage.getItem('favorites')  ? JSON.parse(localStorage.getItem('favorites')) : [];
         if (isInFavorite) {
           favoriteFilms = favoriteFilms.filter((item) => {
-            return +item !== +film.id;
+            return +item !== +response.id;
           })
         }
         else {
-          favoriteFilms.push(film.id);
+          favoriteFilms.push(response.id);
         }
         localStorage.setItem('favorites', JSON.stringify(favoriteFilms));
         isInFavorite = !isInFavorite;
@@ -160,11 +166,11 @@ const handleClick = (film) => {
         let favoriteFilms = localStorage.getItem('favorites')  ? JSON.parse(localStorage.getItem('favorites')) : [];
         if (isInFavorite) {
           favoriteFilms = favoriteFilms.filter((item) => {
-            return +item !== +film.id;
+            return +item !== +response.id;
           })
         }
         else {
-          favoriteFilms.push(film.id);
+          favoriteFilms.push(response.id);
         }
         localStorage.setItem('favorites', JSON.stringify(favoriteFilms));
         isInFavorite = !isInFavorite;
@@ -172,7 +178,22 @@ const handleClick = (film) => {
         addToFavorites.innerText = isInFavorite ? 'In favorite' : 'Add to favorite';
       }
 
-        div.append(img);
+      // const previousFilm = document.createElement('img');
+      // previousFilm.classList.add('previous-film');
+      // previousFilm.setAttribute('src' , '/images/moon.png');
+      // previousFilm.onclick = () => {
+      //   wrapper.remove();
+      // }
+      //
+      // const nextFilm = document.createElement('img');
+      // nextFilm.classList.add('next-film');
+      // nextFilm.setAttribute('src' , '/images/moon.png');
+      // nextFilm.onclick = () => {
+      //   wrapper.remove();
+      // }
+
+
+      div.append(img);
 
       movieData.append(score);
       movieData.append(rating);
@@ -188,6 +209,7 @@ const handleClick = (film) => {
       info.append(topDescription);
       info.append(description);
 
+
       divContainer.append(img);
       divContainer.append(info);
 
@@ -199,7 +221,10 @@ const handleClick = (film) => {
 
       wrapper.append(wrapperBackground);
       wrapper.append(div);
+      // wrapper.append(previousFilm);
+      // wrapper.append(nextFilm);
       wrapper.append(closeButton);
+
 
 
       document.body.append(wrapper);
@@ -236,7 +261,7 @@ const drawFilms = (films) => {
     div.append(img);
 
     div.onclick = () => {
-      handleClick(film);
+      handleClick(film.id);
     }
 
     container.append(div);
