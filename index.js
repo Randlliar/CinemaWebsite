@@ -214,6 +214,8 @@ const handleClick = (film) => {
 const buildImageElement = (film) => {
   const img = document.createElement('img');
   img.setAttribute('src', `https://image.tmdb.org/t/p/w500/${film.poster_path}`);
+  // img.setAttribute('title', 'film');
+
   return img;
 }
 
@@ -226,6 +228,8 @@ const drawFilms = (films) => {
   films.results.forEach((film, index) => {
     const div = document.createElement('div');
     div.classList.add('image');
+    div.setAttribute('title', film.original_title);
+
 
     const img = buildImageElement(film);
 
