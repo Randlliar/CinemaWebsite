@@ -4,18 +4,18 @@ let totalPages;
 let favorites = [];
 let apiKey = 'ebea8cfca72fdff8d2624ad7bbf78e4c';
 const month = {
-  '01' : 'Jan',
-  '02' : 'Feb',
-  '03' : 'Mar',
-  '04' : 'Apr',
-  '05' : 'May',
-  '06' : 'Jun',
-  '07' : 'Jul',
-  '08' : 'Aug',
-  '09' : 'Sep',
-  '10' : 'Oct',
-  '11' : 'Nov',
-  '12' : 'Dec',
+  '01': 'Jan',
+  '02': 'Feb',
+  '03': 'Mar',
+  '04': 'Apr',
+  '05': 'May',
+  '06': 'Jun',
+  '07': 'Jul',
+  '08': 'Aug',
+  '09': 'Sep',
+  '10': 'Oct',
+  '11': 'Nov',
+  '12': 'Dec',
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -25,6 +25,128 @@ document.addEventListener('DOMContentLoaded', function () {
   returnToMain();
   getFromLocalStorage();
 });
+
+const favoritesFilms = () => {
+  getFromLocalStorage();
+  console.log(favorites);
+
+  const favoritesFilmsBlock = document.createElement('div');
+  favoritesFilmsBlock.classList.add('favorites-films-block');
+
+  const myFavorites = document.createElement('section');
+  myFavorites.classList.add('my-favorites');
+  myFavorites.innerText = 'My Favorites';
+
+  const favoriteContent = document.createElement('section');
+  favoriteContent.classList.add('favorite-content');
+
+  favoritesFilmsBlock.append(myFavorites);
+  favoritesFilmsBlock.append(favoriteContent);
+
+  let main = document.getElementsByTagName('main');
+
+  main[0].append(favoritesFilmsBlock);
+
+  const allFavoritesFilms = favorites.map((item, index) => {
+    return fetch(`https://api.themoviedb.org/3/movie/${item}?api_key=${apiKey}&language=en-US`, {
+      method: 'GET',
+    })
+      .then((response) => {
+        return response.json();
+      })
+  })
+
+  Promise.all(
+    allFavoritesFilms
+  )
+    .then((response) => {
+      console.log(response);
+
+      response.forEach((film, index) => {
+        const favoriteFilms = localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [];
+        let isInFavorite = favoriteFilms.includes(response.id);
+
+        const favoriteFilmBlock = document.createElement('div');
+        favoriteFilmBlock.classList.add('favorite-film-block');
+
+        const createPoster = buildImageElement(film);
+        createPoster.classList.add('image-poster');
+
+        const descriptionBlock = document.createElement('div');
+        descriptionBlock.classList.add('description-block');
+
+        const topContentBlock = document.createElement('div');
+        topContentBlock.classList.add('top-content-block');
+
+        const filmTitle = document.createElement('span');
+        filmTitle.innerText = film.original_title;
+        filmTitle.classList.add('film-title');
+
+        const buttonAddToFavorite = document.createElement('button');
+        buttonAddToFavorite.classList.add('button-add-to-favorite');
+        buttonAddToFavorite.innerText = 'Unfavorite';
+        buttonAddToFavorite.onclick = () => {
+
+            favorites = favorites.filter((item) => {
+              return +item !== +film.id;
+            })
+          localStorage.setItem('favorites', JSON.stringify(favorites));
+          favoriteFilmBlock.remove();
+
+          }
+
+        const filmDescription = document.createElement('span');
+        filmDescription.innerText = film.overview;
+        filmDescription.classList.add('film-description');
+
+        const buttonRemove = document.createElement('button');
+        buttonRemove.setAttribute('value', 'remove from favorite');
+        buttonRemove.onclick = () => {
+          favoriteFilmBlock.remove();
+        }
+
+        topContentBlock.append(filmTitle);
+        topContentBlock.append(buttonAddToFavorite);
+
+        favoriteFilmBlock.append(createPoster);
+        favoriteFilmBlock.append(descriptionBlock);
+
+        descriptionBlock.append(topContentBlock);
+        descriptionBlock.append(filmDescription);
+        favoriteContent.append(favoriteFilmBlock);
+      })
+    })
+}
+
+const addMainSections = () => {
+  const lastRealises = document.createElement('section');
+  lastRealises.classList.add('font');
+  lastRealises.innerText = 'Last Realises';
+
+  const mainContent = document.createElement('section');
+  mainContent.setAttribute('id', 'content');
+
+  const dropDownButton = document.createElement('section');
+  dropDownButton.classList.add('film');
+
+  const pagination = document.createElement('div');
+  pagination.classList.add('pagination');
+  pagination.setAttribute('id', 'pagination');
+
+  const poster = document.createElement('div');
+  poster.classList.add('poster');
+  poster.setAttribute('id', 'container');
+
+  mainContent.append(poster);
+  mainContent.append(pagination);
+
+  let main = document.getElementsByTagName('main');
+  // main.innerHTML = '';
+
+  main[0].append(lastRealises);
+  main[0].append(mainContent);
+  main[0].append(dropDownButton);
+}
 
 const makeReqest = () => {
   fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US&page=${page}`, {
@@ -57,7 +179,7 @@ const handleClick = (id) => {
       const wrapper = document.createElement('div');
       wrapper.classList.add('modal-wrapper');
 
-      const favoriteFilms = localStorage.getItem('favorites')  ? JSON.parse(localStorage.getItem('favorites')) : [];
+      const favoriteFilms = localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [];
       let isInFavorite = favoriteFilms.includes(response.id);
       // console.log(isInFavorite);
 
@@ -132,13 +254,12 @@ const handleClick = (id) => {
       addToFavorites.classList.add('add-to-favourite');
       addToFavorites.innerText = isInFavorite ? 'In favorite' : 'Add to favorite';
       addToFavorites.onclick = () => {
-        let favoriteFilms = localStorage.getItem('favorites')  ? JSON.parse(localStorage.getItem('favorites')) : [];
+        let favoriteFilms = localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [];
         if (isInFavorite) {
           favoriteFilms = favoriteFilms.filter((item) => {
             return +item !== +response.id;
           })
-        }
-        else {
+        } else {
           favoriteFilms.push(response.id);
         }
         localStorage.setItem('favorites', JSON.stringify(favoriteFilms));
@@ -151,13 +272,12 @@ const handleClick = (id) => {
       addToFavoritesMobile.setAttribute('src', isInFavorite ? '/images/star.png' : '/images/add.png');
       addToFavoritesMobile.classList.add('add-to-favourite-mobile');
       addToFavoritesMobile.onclick = () => {
-        let favoriteFilms = localStorage.getItem('favorites')  ? JSON.parse(localStorage.getItem('favorites')) : [];
+        let favoriteFilms = localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [];
         if (isInFavorite) {
           favoriteFilms = favoriteFilms.filter((item) => {
             return +item !== +response.id;
           })
-        }
-        else {
+        } else {
           favoriteFilms.push(response.id);
         }
         localStorage.setItem('favorites', JSON.stringify(favoriteFilms));
@@ -264,7 +384,7 @@ const drawPagination = () => {
     makeReqest();
   }
 
-  if(page === 1){
+  if (page === 1) {
     buttonFirst.setAttribute('disabled', true);
     buttonPrev.setAttribute('disabled', true);
   }
@@ -321,21 +441,21 @@ const drawPagination = () => {
     makeReqest();
   }
 
-  if(page === totalPages){
+  if (page === totalPages) {
     buttonLast.setAttribute('disabled', true);
     buttonNext.setAttribute('disabled', true);
   }
 
   pagination.append(buttonFirst);
   pagination.append(buttonPrev);
-  if (page === totalPages){
+  if (page === totalPages) {
     pagination.append(buttonMinusTwo);
   }
   if (page !== 1) {
     pagination.append(buttonMinusOne);
   }
   pagination.append(buttonCurrent);
-  if(page !== totalPages) {
+  if (page !== totalPages) {
     pagination.append(buttonPlusOne);
   }
   if (page === 1) {
