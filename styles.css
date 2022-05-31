@@ -7,7 +7,6 @@ html {
 }
 
 .font{
-  /*margin-top: 100px;*/
   font-family: 'Bebas Neue', cursive;
   font-family: 'PT Sans', sans-serif;
   font-size: 64px;
@@ -27,7 +26,7 @@ html {
 .font-drop-down{
   font-family: 'Bebas Neue', cursive;
   font-family: 'PT Sans', sans-serif;
-  font-size: 48px;
+  font-size: 32px;
   color: #524f4f;
 }
 
@@ -46,6 +45,8 @@ html {
   font-size: 64px;
   color: white;
   margin: 30px;
+  background: none;
+  border: 0px;
 }
 
 @media screen and (min-device-width: 720px) {
@@ -54,6 +55,8 @@ html {
     font-family: 'PT Sans', sans-serif;
     font-size: 32px;
     color: white;
+    background: none;
+    border: 0px;
   }
 }
 
@@ -79,8 +82,8 @@ html {
 }
 
 .selected{
-  width: 350px;
-  height: 100px;
+  width: fit-content;
+  height: fit-content;
   background: none;
   color: white;
   margin: 30px;
@@ -89,8 +92,8 @@ html {
 
 @media screen and (min-device-width: 720px){
   .selected{
-    width: 200px;
-    height: 45px;
+    width: fit-content;
+    height: fit-content;
     background: none;
     color: white;
   }
@@ -191,7 +194,7 @@ html {
 .image-poster{
   display: flex;
   height: 500px;
-
+  margin: 10px 20px;
 }
 
 .div{
@@ -220,17 +223,14 @@ html {
   margin-left: 100px;
   justify-content: center;
   max-width: 800px;
-  /*align-items: flex-end;*/
 }
 
 @media screen and (min-device-width: 720px) {
   .info{
     display: flex;
     flex-direction: column;
-    /*margin-left: 100px;*/
     justify-content: center;
     max-width: 800px;
-    /*align-items: flex-end;*/
   }
 }
 
@@ -282,7 +282,6 @@ html {
   font-family: 'PT Sans', sans-serif;
   font-size: 64px;
   color: #ffffff;
-  /*width: 700px;*/
 }
 
 @media screen and (min-device-width: 720px){
@@ -335,10 +334,20 @@ html {
 
 .close-button{
   position: absolute;
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   left: 20px;
   top: 20px;
+}
+
+@media screen and (min-device-width: 821px){
+  .close-button{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: 20px;
+    top: 20px;
+  }
 }
 
 .divContainer {
@@ -356,17 +365,17 @@ html {
     display: flex;
     justify-content: flex-end;
     font-size: 32px;
-    color: white;
-    /*right: 400px;*/
-    /*top: 250px;*/
+    color: rgba(255, 255, 255, 0.9);
+    background: none;
+    border-radius: 10px;
   }
 }
 
 .add-to-favourite-mobile{
   display: flex;
   justify-content: flex-end;
-  width: 50px;
-  height: 50px;
+  width: 80px;
+  height: 80px;
 }
 
 @media screen and (min-device-width: 821px){
@@ -389,10 +398,135 @@ html {
 }
 
 .previous-film{
-  /*display: flex;*/
   position: absolute;
   width: 30px;
   height: 30px;
   left: 40px;
   top: 100px;
+}
+
+.my-favorites{
+  font-family: 'Bebas Neue', cursive;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 64px;
+  color: #524f4f;
+  margin: 120px 0 10px 30px;
+}
+
+@media screen and (min-device-width: 720px){
+  .my-favorites{
+    font-family: 'Bebas Neue', cursive;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 32px;
+    color: #524f4f;
+  }
+}
+
+.film-title{
+  font-family: 'Bebas Neue', cursive;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 48px;
+  color: #0f0f0f;
+  /*width: 700px;*/
+  margin: 5px 0;
+
+
+}
+
+@media screen and (min-device-width: 720px){
+  .film-title{
+    font-family: 'Bebas Neue', cursive;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 32px;
+    color: #0f0f0f;
+    display: flex;
+    margin: 40px 0;
+
+  }
+}
+
+.favorite-film-block{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.favorite-content{
+  display: flex;
+  flex-direction: column;
+  top: 100px;
+  left: 10%;
+  z-index: 1001;
+  gap: 20px;
+}
+
+@media screen and (min-device-width: 720px){
+  .favorite-content{
+    display: flex;
+    flex-direction: column;
+    top: 100px;
+    left: 10%;
+    z-index: 1001;
+    gap: 20px;
+  }
+}
+
+.favorites-films-block{
+  display: block;
+  top: 100px;
+}
+
+.description-block{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.film-description{
+  font-family: 'Bebas Neue', cursive;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 24px;
+}
+
+.button-add-to-favorite{
+  display: flex;
+  align-items: center;
+  font-size: 32px;
+  margin-right: 30px;
+  border: 3px solid rgba(0, 0, 0, 0.25);
+  color: rgba(0, 0, 0, 0.7);
+  height: fit-content;
+  background: none;
+  border-radius: 10px;
+}
+
+@media screen and (min-device-width: 720px) {
+  .button-add-to-favorite {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    margin-right: 30px;
+    border: 3px solid rgba(0, 0, 0, 0.25);
+    color: rgba(0, 0, 0, 0.25);
+    height: fit-content;
+    background: none;
+    border-radius: 10px;
+  }
+}
+
+.top-content-block{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+@media screen and (min-device-width: 720px){
+  .top-content-block{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  }
 }

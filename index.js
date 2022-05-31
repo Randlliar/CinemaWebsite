@@ -18,13 +18,11 @@ const month = {
   '12' : 'Dec',
 }
 
-const section = document.getElementById('section');
-section.innerHTML = '';
-
 document.addEventListener('DOMContentLoaded', function () {
-  //функцию для сэкшна
-  const zalupa2 = document
+  addMainSections();
   makeReqest();
+  clearMain();
+  returnToMain();
   getFromLocalStorage();
 });
 
@@ -56,20 +54,12 @@ const handleClick = (id) => {
     .then((response) => {
       console.log(response);
 
-      // document.getElementsByClassName('modal-wrapper');
-      // const zalupa = document.getElementsByClassName('modal-wrapper');
-      // console.log(zalupa);
-      // if (zalupa){
-      //   zalupa[0].remove();
-      // }
-
       const wrapper = document.createElement('div');
       wrapper.classList.add('modal-wrapper');
 
       const favoriteFilms = localStorage.getItem('favorites')  ? JSON.parse(localStorage.getItem('favorites')) : [];
       let isInFavorite = favoriteFilms.includes(response.id);
-      console.log(isInFavorite);
-
+      // console.log(isInFavorite);
 
       const wrapperBackground = document.createElement('div');
 
@@ -99,10 +89,8 @@ const handleClick = (id) => {
       const movieData = document.createElement('div');
       movieData.classList.add('movieData');
 
-
       const img = buildImageElement(response);
       img.classList.add('image-poster');
-
 
       const topDescription = document.createElement('div');
       topDescription.classList.add('top-description');
@@ -140,7 +128,7 @@ const handleClick = (id) => {
       const imgWrapper = document.createElement('div');
       imgWrapper.classList.add('imgWrapper');
 
-      const addToFavorites = document.createElement('span');
+      const addToFavorites = document.createElement('button');
       addToFavorites.classList.add('add-to-favourite');
       addToFavorites.innerText = isInFavorite ? 'In favorite' : 'Add to favorite';
       addToFavorites.onclick = () => {
@@ -156,11 +144,11 @@ const handleClick = (id) => {
         localStorage.setItem('favorites', JSON.stringify(favoriteFilms));
         isInFavorite = !isInFavorite;
         addToFavorites.innerText = isInFavorite ? 'In favorite' : 'Add to favorite';
-        addToFavoritesMobile.setAttribute('src' , isInFavorite ? '/images/star.png' : '/images/close.png'); //добавить в 2 поля
+        addToFavoritesMobile.setAttribute('src', isInFavorite ? '/images/star.png' : '/images/add.png'); //добавить в 2 поля
       }
 
       const addToFavoritesMobile = document.createElement('img');
-      addToFavoritesMobile.setAttribute('src' , isInFavorite ? '/images/star.png' : '/images/close.png');
+      addToFavoritesMobile.setAttribute('src', isInFavorite ? '/images/star.png' : '/images/add.png');
       addToFavoritesMobile.classList.add('add-to-favourite-mobile');
       addToFavoritesMobile.onclick = () => {
         let favoriteFilms = localStorage.getItem('favorites')  ? JSON.parse(localStorage.getItem('favorites')) : [];
@@ -174,24 +162,9 @@ const handleClick = (id) => {
         }
         localStorage.setItem('favorites', JSON.stringify(favoriteFilms));
         isInFavorite = !isInFavorite;
-        addToFavoritesMobile.setAttribute('src' , isInFavorite ? '/images/star.png' : '/images/close.png'); //добавить в 2 поля
+        addToFavoritesMobile.setAttribute('src', isInFavorite ? '/images/star.png' : '/images/add.png'); //добавить в 2 поля
         addToFavorites.innerText = isInFavorite ? 'In favorite' : 'Add to favorite';
       }
-
-      // const previousFilm = document.createElement('img');
-      // previousFilm.classList.add('previous-film');
-      // previousFilm.setAttribute('src' , '/images/moon.png');
-      // previousFilm.onclick = () => {
-      //   wrapper.remove();
-      // }
-      //
-      // const nextFilm = document.createElement('img');
-      // nextFilm.classList.add('next-film');
-      // nextFilm.setAttribute('src' , '/images/moon.png');
-      // nextFilm.onclick = () => {
-      //   wrapper.remove();
-      // }
-
 
       div.append(img);
 
@@ -209,25 +182,20 @@ const handleClick = (id) => {
       info.append(topDescription);
       info.append(description);
 
-
       divContainer.append(img);
       divContainer.append(info);
-
 
       div.append(divContainer);
       div.append(titleMobile);
       div.append(descriptionMobile);
 
-
       wrapper.append(wrapperBackground);
       wrapper.append(div);
-      // wrapper.append(previousFilm);
-      // wrapper.append(nextFilm);
       wrapper.append(closeButton);
 
+      let main = document.getElementsByTagName('main');
 
-
-      document.body.append(wrapper);
+      main[0].append(wrapper);
 
 
     })
@@ -239,9 +207,17 @@ const handleClick = (id) => {
 const buildImageElement = (film) => {
   const img = document.createElement('img');
   img.setAttribute('src', `https://image.tmdb.org/t/p/w500/${film.poster_path}`);
-  // img.setAttribute('title', 'film');
 
   return img;
+}
+
+const clearMain = () => {
+  const favoritesSelected = document.getElementById('favoritesSelected');
+  favoritesSelected.onchange = () => {
+    const main = document.getElementsByTagName('main');
+    main[0].innerHTML = '';
+    favoritesFilms();
+  }
 }
 
 const drawFilms = (films) => {
@@ -265,7 +241,6 @@ const drawFilms = (films) => {
     }
 
     container.append(div);
-
   })
 }
 
@@ -313,7 +288,6 @@ const drawPagination = () => {
   const buttonCurrent = document.createElement('button');
   buttonCurrent.innerText = page;
   buttonCurrent.classList.add('btn', 'btn__num');
-
 
   const buttonPlusOne = document.createElement('button');
   buttonPlusOne.classList.add('btn');
@@ -372,13 +346,21 @@ const drawPagination = () => {
 }
 
 const getFromLocalStorage = () => {
-  let saved = localStorage.getItem('zalupa');
+  let saved = localStorage.getItem('favorites');
   if (saved) {
     favorites = JSON.parse(saved);
   }
 }
 
+const returnToMain = () => {
+  const mainWindow = document.getElementById('mainWindow');
+  mainWindow.onclick = () => {
+    const main = document.getElementsByTagName('main');
+    main[0].innerHTML = '';
+    addMainSections();
+    makeReqest();
+  }
+}
 
 
 
-// ??
