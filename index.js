@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 const favoritesFilms = () => {
   getFromLocalStorage();
-  console.log(favorites);
 
   const favoritesFilmsBlock = document.createElement('div');
   favoritesFilmsBlock.classList.add('favorites-films-block');
@@ -60,7 +59,6 @@ const favoritesFilms = () => {
     allFavoritesFilms
   )
     .then((response) => {
-      console.log(response);
 
       response.forEach((film, index) => {
         const favoriteFilms = localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [];
@@ -141,7 +139,6 @@ const addMainSections = () => {
   mainContent.append(pagination);
 
   let main = document.getElementsByTagName('main');
-  // main.innerHTML = '';
 
   main[0].append(lastRealises);
   main[0].append(mainContent);
@@ -166,7 +163,6 @@ const makeReqest = () => {
 };
 
 const handleClick = (id) => {
-  console.log(id);
   fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`, {
     method: 'GET',
   })
@@ -174,14 +170,12 @@ const handleClick = (id) => {
       return response.json();
     })
     .then((response) => {
-      console.log(response);
 
       const wrapper = document.createElement('div');
       wrapper.classList.add('modal-wrapper');
 
       const favoriteFilms = localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [];
       let isInFavorite = favoriteFilms.includes(response.id);
-      // console.log(isInFavorite);
 
       const wrapperBackground = document.createElement('div');
 
@@ -196,7 +190,7 @@ const handleClick = (id) => {
       div.classList.add('div');
 
       const closeButton = document.createElement('img');
-      closeButton.setAttribute('src', '/images/close.png')
+      closeButton.setAttribute('src', 'https://www.flaticon.com/svg/vstatic/svg/3917/3917050.svg?token=exp=1654239525~hmac=c7b0f64f77646dba425c441ced3ad191')
       closeButton.classList.add('close-button');
       closeButton.onclick = () => {
         wrapper.remove();
@@ -265,11 +259,11 @@ const handleClick = (id) => {
         localStorage.setItem('favorites', JSON.stringify(favoriteFilms));
         isInFavorite = !isInFavorite;
         addToFavorites.innerText = isInFavorite ? 'In favorite' : 'Add to favorite';
-        addToFavoritesMobile.setAttribute('src', isInFavorite ? '/images/star.png' : '/images/add.png'); //добавить в 2 поля
+        addToFavoritesMobile.setAttribute('src', isInFavorite ? 'https://www.flaticon.com/svg/vstatic/svg/3916/3916585.svg?token=exp=1654239573~hmac=66eba7cc826214332464a1a941723b24' : 'https://www.flaticon.com/svg/vstatic/svg/3917/3917172.svg?token=exp=1654239573~hmac=8d60812e01e5336372ba3b9fbc820f17'); //добавить в 2 поля
       }
 
       const addToFavoritesMobile = document.createElement('img');
-      addToFavoritesMobile.setAttribute('src', isInFavorite ? '/images/star.png' : '/images/add.png');
+      addToFavoritesMobile.setAttribute('src', isInFavorite ? 'https://www.flaticon.com/svg/vstatic/svg/3916/3916585.svg?token=exp=1654239573~hmac=66eba7cc826214332464a1a941723b24' : 'https://www.flaticon.com/svg/vstatic/svg/3917/3917172.svg?token=exp=1654239573~hmac=8d60812e01e5336372ba3b9fbc820f17');
       addToFavoritesMobile.classList.add('add-to-favourite-mobile');
       addToFavoritesMobile.onclick = () => {
         let favoriteFilms = localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [];
@@ -282,7 +276,7 @@ const handleClick = (id) => {
         }
         localStorage.setItem('favorites', JSON.stringify(favoriteFilms));
         isInFavorite = !isInFavorite;
-        addToFavoritesMobile.setAttribute('src', isInFavorite ? '/images/star.png' : '/images/add.png'); //добавить в 2 поля
+        addToFavoritesMobile.setAttribute('src', isInFavorite ? 'https://www.flaticon.com/svg/vstatic/svg/3916/3916585.svg?token=exp=1654239573~hmac=66eba7cc826214332464a1a941723b24' : 'https://www.flaticon.com/svg/vstatic/svg/3917/3917172.svg?token=exp=1654239573~hmac=8d60812e01e5336372ba3b9fbc820f17'); //добавить в 2 поля
         addToFavorites.innerText = isInFavorite ? 'In favorite' : 'Add to favorite';
       }
 
@@ -317,7 +311,6 @@ const handleClick = (id) => {
 
       main[0].append(wrapper);
 
-
     })
     .catch((e) => {
       console.log(e);
@@ -333,24 +326,31 @@ const buildImageElement = (film) => {
 
 const clearMain = () => {
   const favoritesSelected = document.getElementById('favoritesSelected');
-  favoritesSelected.onchange = () => {
-    const main = document.getElementsByTagName('main');
-    main[0].innerHTML = '';
-    favoritesFilms();
+  favoritesSelected.onchange = (favoriteFilm) => {
+    console.log(favoriteFilm);
+    if (favoriteFilm.target.value === 'favoriteFilm') {
+      const main = document.getElementsByTagName('main');
+      main[0].innerHTML = '';
+      favoritesFilms();
+    }
+    else {
+      const main = document.getElementsByTagName('main');
+      main[0].innerHTML = '';
+      addMainSections();
+      makeReqest();
+    }
   }
 }
 
+
 const drawFilms = (films) => {
-  console.log(films);
   container = document.getElementById('container');
   container.innerHTML = '';
 
-  //map
   films.results.forEach((film, index) => {
     const div = document.createElement('div');
     div.classList.add('image');
     div.setAttribute('title', film.original_title);
-
 
     const img = buildImageElement(film);
 

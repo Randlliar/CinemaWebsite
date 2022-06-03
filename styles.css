@@ -184,7 +184,6 @@ html {
   position: absolute;
   width: 100%;
   height: calc(100% + 20px);
-
   left: -5px;
   top:-10px;
   bottom:-10px;
@@ -427,10 +426,7 @@ html {
   font-family: 'PT Sans', sans-serif;
   font-size: 48px;
   color: #0f0f0f;
-  /*width: 700px;*/
   margin: 5px 0;
-
-
 }
 
 @media screen and (min-device-width: 720px){
@@ -441,7 +437,6 @@ html {
     color: #0f0f0f;
     display: flex;
     margin: 40px 0;
-
   }
 }
 
