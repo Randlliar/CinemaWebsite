@@ -190,7 +190,7 @@ const handleClick = (id) => {
       div.classList.add('div');
 
       const closeButton = document.createElement('img');
-      closeButton.setAttribute('src', 'https://www.flaticon.com/svg/vstatic/svg/3917/3917050.svg?token=exp=1654239525~hmac=c7b0f64f77646dba425c441ced3ad191')
+      closeButton.setAttribute('src', 'images/close_button.png')
       closeButton.classList.add('close-button');
       closeButton.onclick = () => {
         wrapper.remove();
