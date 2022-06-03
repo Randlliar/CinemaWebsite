@@ -259,11 +259,11 @@ const handleClick = (id) => {
         localStorage.setItem('favorites', JSON.stringify(favoriteFilms));
         isInFavorite = !isInFavorite;
         addToFavorites.innerText = isInFavorite ? 'In favorite' : 'Add to favorite';
-        addToFavoritesMobile.setAttribute('src', isInFavorite ? 'https://www.flaticon.com/svg/vstatic/svg/3916/3916585.svg?token=exp=1654239573~hmac=66eba7cc826214332464a1a941723b24' : 'https://www.flaticon.com/svg/vstatic/svg/3917/3917172.svg?token=exp=1654239573~hmac=8d60812e01e5336372ba3b9fbc820f17'); //добавить в 2 поля
+        addToFavoritesMobile.setAttribute('src', isInFavorite ? 'images/add_to_favorite.png' : 'images/favorites.png');
       }
 
       const addToFavoritesMobile = document.createElement('img');
-      addToFavoritesMobile.setAttribute('src', isInFavorite ? 'https://www.flaticon.com/svg/vstatic/svg/3916/3916585.svg?token=exp=1654239573~hmac=66eba7cc826214332464a1a941723b24' : 'https://www.flaticon.com/svg/vstatic/svg/3917/3917172.svg?token=exp=1654239573~hmac=8d60812e01e5336372ba3b9fbc820f17');
+      addToFavoritesMobile.setAttribute('src', isInFavorite ? 'images/favorites.png' : 'images/add_to_favorite.png');
       addToFavoritesMobile.classList.add('add-to-favourite-mobile');
       addToFavoritesMobile.onclick = () => {
         let favoriteFilms = localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [];
@@ -276,7 +276,7 @@ const handleClick = (id) => {
         }
         localStorage.setItem('favorites', JSON.stringify(favoriteFilms));
         isInFavorite = !isInFavorite;
-        addToFavoritesMobile.setAttribute('src', isInFavorite ? 'https://www.flaticon.com/svg/vstatic/svg/3916/3916585.svg?token=exp=1654239573~hmac=66eba7cc826214332464a1a941723b24' : 'https://www.flaticon.com/svg/vstatic/svg/3917/3917172.svg?token=exp=1654239573~hmac=8d60812e01e5336372ba3b9fbc820f17'); //добавить в 2 поля
+        addToFavoritesMobile.setAttribute('src', isInFavorite ? 'images/favorites.png' : 'images/add_to_favorite.png');
         addToFavorites.innerText = isInFavorite ? 'In favorite' : 'Add to favorite';
       }
 
