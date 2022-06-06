@@ -376,6 +376,38 @@ const drawPagination = () => {
     makeReqest();
   }
 
+  const firstPage = document.createElement('button');
+  firstPage.classList.add('btn', 'btn__pagination');
+  firstPage.innerText = '1';
+  firstPage.onclick = () => {
+    page = 1;
+    makeReqest();
+  }
+
+  const buttonMinusThree = document.createElement('button');
+  buttonMinusThree.classList.add('btn', 'btn__pagination');
+  buttonMinusThree.innerText = '...';
+  buttonMinusThree.onclick = () => {
+    page -= 3;
+    makeReqest();
+  }
+
+  const lastPage = document.createElement('button');
+  lastPage.classList.add('btn', 'btn__pagination');
+  lastPage.innerText = totalPages;
+  lastPage.onclick = () => {
+    page = totalPages;
+    makeReqest();
+  }
+
+  const buttonPlusThree = document.createElement('button');
+  buttonPlusThree.classList.add('btn', 'btn__pagination');
+  buttonPlusThree.innerText = '...';
+  buttonPlusThree.onclick = () => {
+    page += 3;
+    makeReqest();
+  }
+
   const buttonPrev = document.createElement('button');
   buttonPrev.classList.add('btn', 'btn__pagination');
   buttonPrev.innerText = 'Prev';
@@ -448,6 +480,13 @@ const drawPagination = () => {
 
   pagination.append(buttonFirst);
   pagination.append(buttonPrev);
+
+  if (page >= 3) {
+  pagination.append(firstPage);
+  }
+  if (page > 3) {
+    pagination.append(buttonMinusThree);
+  }
   if (page === totalPages) {
     pagination.append(buttonMinusTwo);
   }
@@ -461,6 +500,13 @@ const drawPagination = () => {
   if (page === 1) {
     pagination.append(buttonPlusTwo);
   }
+  if (page < totalPages - 3) {
+    pagination.append(buttonPlusThree);
+  }
+  if (page <= totalPages - 3 ) {
+    pagination.append(lastPage);
+  }
+
   pagination.append(buttonNext);
   pagination.append(buttonLast);
 }
