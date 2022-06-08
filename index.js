@@ -1,7 +1,9 @@
 let page = 1;
+let openedFilmPage = 1;
 let container;
 let totalPages;
 let favorites = [];
+let films = [];
 let apiKey = 'ebea8cfca72fdff8d2624ad7bbf78e4c';
 const month = {
   '01': 'Jan',
@@ -146,6 +148,7 @@ const addMainSections = () => {
 }
 
 const makeReqest = () => {
+  openedFilmPage = page;
   fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US&page=${page}`, {
     method: 'GET',
   })
@@ -154,6 +157,7 @@ const makeReqest = () => {
     })
     .then((response) => {
       totalPages = response.total_pages;
+      films = response.results;
       drawFilms(response);
       drawPagination();
     })
@@ -161,6 +165,45 @@ const makeReqest = () => {
       console.log(e);
     })
 };
+
+const findIndex = (id) => {
+  return films.findIndex((elemnt) => {
+    return elemnt.id === id;
+  })
+}
+
+const loadFilmFromNextPage = (newOpenedFilmPage) => {
+  openedFilmPage = newOpenedFilmPage;
+  fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US&page=${openedFilmPage}`, {
+    method: 'GET',
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((response) => {
+      films = [...films, ...response.results];
+
+      const firstId = response.results[0].id;
+      handleClick(firstId);
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+}
+
+const goToNextFilm = (id) => {
+  const index = findIndex(id);
+  if(index === -1) {
+    return;
+  } else if (index === films.length - 1) {
+    const newOpenedFilmPage = openedFilmPage === totalPages ? 1 : openedFilmPage + 1;
+    loadFilmFromNextPage(newOpenedFilmPage);
+    return;
+  }
+
+  const film = films[index + 1];
+  handleClick(film.id);
+}
 
 const handleClick = (id) => {
   fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`, {
@@ -170,6 +213,7 @@ const handleClick = (id) => {
       return response.json();
     })
     .then((response) => {
+      const previousModal = document.getElementsByClassName('modal-wrapper');
 
       const wrapper = document.createElement('div');
       wrapper.classList.add('modal-wrapper');
@@ -189,11 +233,22 @@ const handleClick = (id) => {
       const div = document.createElement('div');
       div.classList.add('div');
 
+      const sad = document.createElement('div');
+      sad.classList.add('sad');
+
       const closeButton = document.createElement('img');
       closeButton.setAttribute('src', 'images/close_button.png')
       closeButton.classList.add('close-button');
       closeButton.onclick = () => {
         wrapper.remove();
+      }
+
+      const nextMovie = document.createElement('img');
+      nextMovie.setAttribute('src', 'images/next_film.png')
+      nextMovie.classList.add('next-movie');
+      nextMovie.onclick = () => {
+        goToNextFilm(response.id);
+        console.log(response);
       }
 
       const info = document.createElement('div');
@@ -280,6 +335,9 @@ const handleClick = (id) => {
         addToFavorites.innerText = isInFavorite ? 'In favorite' : 'Add to favorite';
       }
 
+      buttonsContainer = document.createElement('div');
+      buttonsContainer.classList.add('buttons-container');
+
       div.append(img);
 
       movieData.append(score);
@@ -299,17 +357,29 @@ const handleClick = (id) => {
       divContainer.append(img);
       divContainer.append(info);
 
+
       div.append(divContainer);
       div.append(titleMobile);
       div.append(descriptionMobile);
 
+      buttonsContainer.append(closeButton);
+      buttonsContainer.append(nextMovie);
+
+
+      // div.append(closeButton);
       wrapper.append(wrapperBackground);
+      wrapper.append(buttonsContainer);
+
       wrapper.append(div);
-      wrapper.append(closeButton);
+      // wrapper.append(buttonsContainer);
 
       let main = document.getElementsByTagName('main');
 
       main[0].append(wrapper);
+
+      if(previousModal && previousModal.length > 1) {
+        previousModal[0].remove();
+      }
 
     })
     .catch((e) => {
@@ -341,7 +411,6 @@ const clearMain = () => {
     }
   }
 }
-
 
 const drawFilms = (films) => {
   container = document.getElementById('container');
